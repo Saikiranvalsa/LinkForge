@@ -1,6 +1,5 @@
 package com.url.LinkForge_Backend.controller;
 
-import com.url.LinkForge_Backend.dto.LoginDto;
 import com.url.LinkForge_Backend.dto.RegisterDto;
 import com.url.LinkForge_Backend.model.User;
 import com.url.LinkForge_Backend.service.UserService;

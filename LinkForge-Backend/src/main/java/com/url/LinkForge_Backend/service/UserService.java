@@ -2,6 +2,7 @@ package com.url.LinkForge_Backend.service;
 
 import com.url.LinkForge_Backend.model.User;
 import com.url.LinkForge_Backend.model.UserPrincipal;
+import com.url.LinkForge_Backend.repository.UrlMappingRepository;
 import com.url.LinkForge_Backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+    @Autowired
+    private UrlMappingRepository urlMappingRepository;
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -33,5 +36,9 @@ public class UserService {
             return jwtService.generateToken(user.getUsername());
         }
         return "Invalid creditals";
+    }
+
+    public User findByUserName(String name) throws UsernameNotFoundException {
+        return userRepository.findByUsername(name);
     }
 }

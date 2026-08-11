@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request->request
                         .requestMatchers("/api/auth/public/register").permitAll()
                         .requestMatchers("/api/auth/public/login").permitAll()
+                        .requestMatchers("/{shortUrl}").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
