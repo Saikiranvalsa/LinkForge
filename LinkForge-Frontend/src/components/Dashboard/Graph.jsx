@@ -2,36 +2,34 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 
 import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Legend,
-  Tooltip,
-  Filler,
+    Chart as ChartJS,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Legend,
+    Tooltip,
+    Filler,
 } from "chart.js";
 
 ChartJS.register(
-  BarElement,
-  Tooltip,
-  CategoryScale,
-  LinearScale,
-  Legend,
-  Filler
+    BarElement,
+    Tooltip,
+    CategoryScale,
+    LinearScale,
+    Legend,
+    Filler
 );
 
 const Graph = ({ graphData = [] }) => {
 
-  // Get dates from backend response
-  const labels = graphData.map((item) => item.clickDate);
+    console.log("GRAPH DATA RECEIVED:", graphData);
 
-  // Get click counts from backend response
-  const userPerDay = graphData.map((item) => item.count);
+    const hasData = Array.isArray(graphData) && graphData.length > 0;
 
-  const data = {
-    labels:
-      graphData.length > 0
-        ? labels
+    console.log("GRAPH HAS DATA:", hasData);
+
+    const labels = hasData
+        ? graphData.map((item) => item.clickDate)
         : [
             "",
             "",
@@ -46,101 +44,125 @@ const Graph = ({ graphData = [] }) => {
             "",
             "",
             "",
-            "",
-          ],
+        ];
 
-    datasets: [
-      {
-        label: "Total Clicks",
+    const clickCounts = hasData
+        ? graphData.map((item) => Number(item.count))
+        : [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            6,
+            5,
+            4,
+            3,
+            2,
+            1,
+        ];
 
-        data:
-          graphData.length > 0
-            ? userPerDay
-            : [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1],
+    console.log("GRAPH LABELS:", labels);
+    console.log("GRAPH CLICK COUNTS:", clickCounts);
 
-        backgroundColor:
-          graphData.length > 0
-            ? "#3b82f6"
-            : "rgba(54, 162, 235, 0.1)",
+    const data = {
+        labels: labels,
 
-        borderColor: "#1D2327",
+        datasets: [
+            {
+                label: "Total Clicks",
 
-        pointBorderColor: "red",
+                data: clickCounts,
 
-        fill: true,
+                backgroundColor: hasData
+                    ? "#3b82f6"
+                    : "rgba(54, 162, 235, 0.1)",
 
-        tension: 0.4,
+                borderColor: "#1D2327",
 
-        barThickness: 20,
+                borderWidth: 1,
 
-        categoryPercentage: 1.5,
+                fill: true,
 
-        barPercentage: 1.5,
-      },
-    ],
-  };
+                tension: 0.4,
 
-  const options = {
-    maintainAspectRatio: false,
+                barThickness: hasData ? 30 : 20,
 
-    responsive: true,
+                categoryPercentage: 0.8,
 
-    plugins: {
-      legend: {
-        display: true,
-      },
-    },
+                barPercentage: 0.8,
+            },
+        ],
+    };
 
-    scales: {
-      y: {
-        beginAtZero: true,
+    const options = {
+        maintainAspectRatio: false,
 
-        ticks: {
-          callback: function (value) {
-            if (Number.isInteger(value)) {
-              return value.toString();
-            }
+        responsive: true,
 
-            return "";
-          },
+        plugins: {
+            legend: {
+                display: true,
+            },
+
+            tooltip: {
+                enabled: true,
+            },
         },
 
-        title: {
-          display: true,
-          text: "Number Of Clicks",
+        scales: {
+            y: {
+                beginAtZero: true,
 
-          font: {
-            family: "Arial",
-            size: 16,
-            weight: "bold",
-          },
+                ticks: {
+                    stepSize: 1,
+
+                    callback: function (value) {
+                        return Number.isInteger(value)
+                            ? value.toString()
+                            : "";
+                    },
+                },
+
+                title: {
+                    display: true,
+
+                    text: "Number Of Clicks",
+
+                    font: {
+                        family: "Arial",
+                        size: 16,
+                        weight: "bold",
+                    },
+                },
+            },
+
+            x: {
+                title: {
+                    display: true,
+
+                    text: "Date",
+
+                    font: {
+                        family: "Arial",
+                        size: 16,
+                        weight: "bold",
+                    },
+                },
+            },
         },
-      },
+    };
 
-      x: {
-        beginAtZero: true,
-
-        title: {
-          display: true,
-          text: "Date",
-
-          font: {
-            family: "Arial",
-            size: 16,
-            weight: "bold",
-          },
-        },
-      },
-    },
-  };
-
-  return (
-    <Bar
-      className="w-full"
-      data={data}
-      options={options}
-    />
-  );
+    return (
+        <div className="w-full h-[400px]">
+            <Bar
+                data={data}
+                options={options}
+            />
+        </div>
+    );
 };
 
 export default Graph;

@@ -1,5 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 import { motion } from "framer-motion";
 
 import Card from "./Card";
@@ -7,11 +7,11 @@ import { useStoreContext } from "../contextApi/ContextApi";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-
   const { token } = useStoreContext();
 
-  console.log("TOKEN FROM LANDING PAGE:", token);
+  console.log("TOKEN FROM LANDING PAGE: " + token);
 
+  // Navigate to Dashboard
   const dashBoardNavigateHandler = () => {
     navigate("/dashboard");
   };
@@ -19,8 +19,10 @@ const LandingPage = () => {
   return (
     <div className="min-h-[calc(100vh-64px)] lg:px-14 sm:px-8 px-4">
 
+      {/* Hero Section */}
       <div className="lg:flex-row flex-col lg:py-5 pt-16 lg:gap-10 gap-8 flex justify-between items-center">
 
+        {/* Left Section */}
         <div className="flex-1">
 
           <motion.h1
@@ -33,19 +35,21 @@ const LandingPage = () => {
             transition={{ duration: 0.8 }}
             className="font-bold font-roboto text-slate-800 md:text-5xl sm:text-4xl text-3xl md:leading-[55px] sm:leading-[45px] leading-10 lg:w-full md:w-[70%] w-full"
           >
-            LinkForge Simplifies URL Shortening For Efficient Sharing.
+            Linklytics Simplifies URL Shortening For Efficient Sharing.
           </motion.h1>
 
           <p className="text-slate-700 text-sm my-5">
-            LinkForge streamlines the process of URL shortening, making
+            Linklytics streamlines the process of URL shortening, making
             sharing links effortless and efficient. With its user-friendly
-            interface, LinkForge allows you to generate concise,
+            interface, Linklytics allows you to generate concise,
             easy-to-share URLs in seconds. Simplify your sharing experience
-            with LinkForge today.
+            with Linklytics today.
           </p>
 
+          {/* Buttons */}
           <div className="flex items-center gap-3">
 
+            {/* Manage Links */}
             <motion.button
               initial={{ opacity: 0, y: 80 }}
               whileInView={{
@@ -60,6 +64,7 @@ const LandingPage = () => {
               Manage Links
             </motion.button>
 
+            {/* Create Short Link */}
             <motion.button
               initial={{ opacity: 0, y: 80 }}
               whileInView={{
@@ -77,6 +82,7 @@ const LandingPage = () => {
           </div>
         </div>
 
+        {/* Right Section */}
         <div className="flex-1 flex justify-center w-full">
 
           <motion.img
@@ -88,12 +94,13 @@ const LandingPage = () => {
             transition={{ duration: 0.8 }}
             className="sm:w-[480px] w-[400px] object-cover rounded-md"
             src="/images/img2.png"
-            alt="LinkForge URL shortening"
+            alt="Linklytics URL Shortener"
           />
 
         </div>
       </div>
 
+      {/* Features Section */}
       <div className="sm:pt-12 pt-7">
 
         <motion.p
@@ -106,7 +113,7 @@ const LandingPage = () => {
           transition={{ duration: 0.8 }}
           className="text-slate-800 font-roboto font-bold lg:w-[60%] md:w-[70%] sm:w-[80%] mx-auto text-3xl text-center"
         >
-          Trusted by individuals and teams at the world's best companies
+          Trusted by individuals and teams at the world best companies
         </motion.p>
 
         <div className="pt-4 pb-7 grid lg:gap-7 gap-4 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-4">

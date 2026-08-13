@@ -1,15 +1,26 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 const ShortenUrlPage = () => {
     const { url } = useParams();
+    const redirected = useRef(false);
 
     useEffect(() => {
-        if (url) {
-            window.location.href = import.meta.env.VITE_BACKEND_URL + `/${url}`;
+        if (!url || redirected.current) {
+            return;
         }
-    }, [url]);
-  return <p>Redirecting...</p>;
-}
 
-export default ShortenUrlPage
+        redirected.current = true;
+
+        const redirectUrl =
+            import.meta.env.VITE_BACKEND_URL + `/${url}`;
+
+        console.log("REDIRECTING TO:", redirectUrl);
+
+        window.location.replace(redirectUrl);
+    }, [url]);
+
+    return <p>Redirecting...</p>;
+};
+
+export default ShortenUrlPage;
