@@ -3,6 +3,7 @@ package com.url.LinkForge_Backend.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,17 +25,45 @@ public class SecurityConfiguration {
     @Autowired
     private UserDetailsService userDetailsService;
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
-        httpSecurity.csrf(customizer->customizer.disable())
-                .authorizeHttpRequests(request->request
-                        .requestMatchers("/api/auth/public/register").permitAll()
-                        .requestMatchers("/api/auth/public/login").permitAll()
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity
+                .csrf(customizer -> customizer.disable())
+
+                .cors(cors -> {})
+
+                .authorizeHttpRequests(request -> request
+
+                        .requestMatchers(
+                                "/api/auth/public/register",
+                                "/api/auth/public/login"
+                        ).permitAll()
+
                         .requestMatchers("/{shortUrl}").permitAll()
-                        .anyRequest().authenticated())
+
+                        .requestMatchers(
+                                org.springframework.http.HttpMethod.OPTIONS,
+                                "/**"
+                        ).permitAll()
+
+                        .anyRequest().authenticated()
+                )
+
                 .formLogin(form -> form.disable())
+
                 .httpBasic(basic -> basic.disable())
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-                httpSecurity.addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
+
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                );
+
+        httpSecurity.addFilterBefore(
+                jwtFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
+
         return httpSecurity.build();
     }
     @Bean

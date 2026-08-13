@@ -5,10 +5,13 @@ import toast from "react-hot-toast";
 
 import TextField from "./TextField";
 import api from "../api/api";
+import { useStoreContext } from "../contextApi/ContextApi";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+
+  const { setToken } = useStoreContext();
 
   const {
     register,
@@ -32,12 +35,15 @@ const LoginPage = () => {
         data
       );
 
-      // Your backend returns the JWT directly as a string
+      // Your backend returns the JWT directly
       const token = response;
 
       console.log("JWT TOKEN:", token);
 
-      // Store the raw JWT token
+      // Store raw JWT in Context
+      setToken(token);
+
+      // Store raw JWT in localStorage
       localStorage.setItem("JWT_TOKEN", token);
 
       toast.success("Login Successful!");
@@ -47,6 +53,7 @@ const LoginPage = () => {
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
+
       toast.error("Login Failed!");
     } finally {
       setLoader(false);

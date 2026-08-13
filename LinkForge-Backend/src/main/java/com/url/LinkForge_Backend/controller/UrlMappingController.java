@@ -36,7 +36,7 @@ public class UrlMappingController {
         return ResponseEntity.ok(urlMappingDto);
     }
 
-    @GetMapping("/myUrls")
+    @GetMapping("/myurls")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<UrlMappingDto>> getUserUrls(Principal principal){
         User user=userService.findByUserName(principal.getName());

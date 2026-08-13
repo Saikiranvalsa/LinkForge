@@ -92,15 +92,33 @@ public class UrlMappingService {
     }
 
     public UrlMapping getOriginalUrl(String shortUrl) {
-        UrlMapping urlMapping=urlMappingRepository.findByShortUrl(shortUrl);
-        if(urlMapping!=null){
-            urlMapping.setClickCount(urlMapping.getClickCount()+1);
+
+        System.out.println("******** GET ORIGINAL URL ********");
+        System.out.println("SHORT URL: " + shortUrl);
+        System.out.println("TIME: " + LocalDateTime.now());
+
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+
+        if (urlMapping != null) {
+
+            System.out.println("URL FOUND: " + urlMapping.getOriginalUrl());
+            System.out.println("OLD CLICK COUNT: " + urlMapping.getClickCount());
+
+            urlMapping.setClickCount(urlMapping.getClickCount() + 1);
             urlMappingRepository.save(urlMapping);
-            ClickEvent clickEvent=new ClickEvent();
+
+            System.out.println("NEW CLICK COUNT: " + urlMapping.getClickCount());
+
+            ClickEvent clickEvent = new ClickEvent();
             clickEvent.setClickDate(LocalDateTime.now());
             clickEvent.setUrlMapping(urlMapping);
+
             clickEventRepository.save(clickEvent);
+
+            System.out.println("CLICK EVENT SAVED");
+            System.out.println("********************************");
         }
+
         return urlMapping;
     }
 }
