@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import toast from "react-hot-toast";
 import { useStoreContext } from "../contextApi/ContextApi";
+import { FaLink, FaSignInAlt } from "react-icons/fa";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const LoginPage = () => {
         data
       );
 
-      // Your backend returns ONLY the JWT token
+      // Backend returns JWT token
       console.log("JWT TOKEN:", response);
 
       // Store token in Context
@@ -51,42 +52,87 @@ const LoginPage = () => {
 
       reset();
 
-      // Go to dashboard
+      // Navigate to Dashboard
       navigate("/dashboard");
 
     } catch (error) {
       console.log("LOGIN ERROR:", error);
 
       toast.error("Login Failed!");
+
     } finally {
       setLoader(false);
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex justify-center items-center">
+    <div className="min-h-[calc(100vh-64px)] bg-slate-50 flex justify-center items-center px-4 py-10">
 
       <form
         onSubmit={handleSubmit(loginHandler)}
-        className="sm:w-[450px] w-[360px] shadow-custom py-8 sm:px-8 px-4 rounded-md"
+        className="
+          w-full
+          max-w-md
+          bg-white
+          border
+          border-slate-200
+          rounded-2xl
+          shadow-xl
+          shadow-slate-900/5
+          p-6
+          sm:p-8
+        "
       >
 
-        <h1 className="text-center font-serif text-btnColor font-bold lg:text-3xl text-2xl">
-          Login Here
-        </h1>
+        {/* Logo */}
+        <div className="flex justify-center mb-5">
 
-        <hr className="mt-2 mb-5 text-black" />
+          <div
+            className="
+              w-14
+              h-14
+              rounded-2xl
+              bg-blue-50
+              flex
+              items-center
+              justify-center
+            "
+          >
+            <FaLink className="text-blue-600 text-xl" />
+          </div>
 
-        <div className="flex flex-col gap-3">
+        </div>
+
+        {/* Heading */}
+        <div className="text-center">
+
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+            Welcome to{" "}
+            <span className="text-blue-600">
+              LinkForge
+            </span>
+          </h1>
+
+          <p className="text-sm text-slate-500 mt-2">
+            Login to manage your shortened URLs and analytics.
+          </p>
+
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-slate-100 my-6" />
+
+        {/* Form Fields */}
+        <div className="flex flex-col gap-4">
 
           {/* Username */}
           <TextField
-            label="UserName"
+            label="Username"
             required
             id="username"
             type="text"
             message="*Username is required"
-            placeholder="Type your username"
+            placeholder="Enter your username"
             register={register}
             errors={errors}
           />
@@ -98,7 +144,7 @@ const LoginPage = () => {
             id="password"
             type="password"
             message="*Password is required"
-            placeholder="Type your password"
+            placeholder="Enter your password"
             register={register}
             min={6}
             errors={errors}
@@ -110,20 +156,47 @@ const LoginPage = () => {
         <button
           disabled={loader}
           type="submit"
-          className="bg-customRed font-semibold text-white bg-custom-gradient w-full py-2 hover:text-slate-400 transition-colors duration-100 rounded-sm my-3"
+          className="
+            w-full
+            flex
+            items-center
+            justify-center
+            gap-2
+            bg-blue-600
+            hover:bg-blue-700
+            disabled:bg-blue-400
+            disabled:cursor-not-allowed
+            text-white
+            font-semibold
+            py-3
+            rounded-xl
+            shadow-lg
+            shadow-blue-600/20
+            transition-all
+            duration-200
+            mt-5
+          "
         >
-          {loader ? "Loading..." : "Login"}
+          <FaSignInAlt />
+
+          {loader ? "Signing In..." : "Login"}
         </button>
 
         {/* Register Link */}
-        <p className="text-center text-sm text-slate-700 mt-6">
-          Don't have an account?
+        <p className="text-center text-sm text-slate-500 mt-6">
+
+          Don't have an account?{" "}
 
           <Link
-            className="font-semibold underline hover:text-black"
             to="/register"
+            className="
+              font-semibold
+              text-blue-600
+              hover:text-blue-700
+              transition-colors
+            "
           >
-            <span className="text-btnColor"> SignUp</span>
+            Create an account
           </Link>
 
         </p>

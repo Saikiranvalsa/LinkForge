@@ -1,36 +1,34 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import React from "react";
+import Modal from "@mui/material/Modal";
+import CreateNewShorten from "./CreateNewShorten";
 
-import React from 'react'
-import CreateNewShorten from './CreateNewShorten';
+const ShortenPopUp = ({ open, setOpen, refetch }) => {
 
-const ShortenPopUp = ({ open, setOpen, refetch}) => {
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className='flex justify-center items-center h-full w-full'>
-            <CreateNewShorten setOpen={setOpen} refetch={refetch} />
-        </div>
-        {/* <Box>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box> */}
-      </Modal>
-  )
-}
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="create-short-url-modal"
+      aria-describedby="create-short-url-description"
+      sx={{
+        backdropFilter: "blur(4px)",
+        backgroundColor: "rgba(15, 23, 42, 0.25)",
+      }}
+    >
+      <div className="flex justify-center items-center min-h-screen w-full px-4">
+
+        <CreateNewShorten
+          setOpen={setOpen}
+          refetch={refetch}
+        />
+
+      </div>
+    </Modal>
+  );
+};
 
 export default ShortenPopUp;
